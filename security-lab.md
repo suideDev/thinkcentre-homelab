@@ -1,6 +1,8 @@
 # ThinkCentre Security Lab
 
-A self-contained security lab built on a single refurbished ThinkCentre: a Windows Active Directory domain, a Linux server, a Windows client, a detection pipeline, and system hardening — all on one small machine.
+[← Back to the lab overview](README.md) · [Monitoring stack writeup](monitoring.md)
+
+A self-contained security lab built on a single refurbished ThinkCentre: a Windows Active Directory domain, a Linux server, a Windows client, a detection pipeline, and system hardening, all on one small machine.
 
 ## Overview
 
@@ -20,7 +22,7 @@ Every machine sits on an isolated 10.0.0.0/24 network, with the domain controlle
 | srv01 | Linux server and hardening target | Ubuntu Server 24.04 LTS | 2 GB / 25 GB | 10.0.0.12 |
 | mon01 | Monitoring node (LXC container) | Debian 13 | 2 GB / 16 GB | 10.0.0.14 |
 
-Every guest is UEFI, uses VirtIO devices for performance, and has clean snapshots so I can reset to a known-good state at any time.
+Every VM is UEFI and uses VirtIO devices for performance, and every guest has clean snapshots so I can reset to a known-good state at any time.
 
 ## Architecture
 
@@ -54,7 +56,7 @@ On dc01 I promoted a new forest, lab.local, running AD DS and DNS, and turned of
 
 ### 3. Audit policy for detection
 
-A domain is only useful for detection if it logs the right things. I configured an advanced audit policy through Group Policy to capture logon events, account and group management, credential validation, and — importantly — process creation with full command lines. The command-line logging is the piece that makes process activity readable after the fact.
+A domain is only useful for detection if it logs the right things. I configured an advanced audit policy through Group Policy to capture logon events, account and group management, credential validation, and process creation with full command lines. The command-line logging is the piece that makes process activity readable after the fact.
 
 ### 4. Linux server
 
@@ -66,7 +68,7 @@ The core of the lab is a pipeline that runs on the host each cycle. It collects 
 
 ### 6. Monitoring
 
-A lightweight monitoring stack — Prometheus, Grafana, Alertmanager and Uptime Kuma, in a dedicated container — watches CPU, memory, disk, service health and uptime across all five machines, with alerting rules and a status page. It has [its own writeup](README.md).
+A lightweight monitoring stack (Prometheus, Grafana, Alertmanager and Uptime Kuma) runs in its own container and watches CPU, memory, disk, service health and uptime across all five machines, with alerting rules and a status page. It has [its own writeup](monitoring.md).
 
 ## Detection results
 
