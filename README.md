@@ -35,7 +35,6 @@ Prometheus, Grafana, Alertmanager and Uptime Kuma watching all five hosts: 15 sc
 | srv01 | Linux server, hardening target | Ubuntu Server 24.04 LTS |
 | mon01 | Monitoring node (LXC) | Debian 13 |
 
-> Built on an isolated lab network. This repo contains no credentials or tokens.
 
 ## Stack
 
