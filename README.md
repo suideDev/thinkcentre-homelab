@@ -2,7 +2,20 @@
 
 A Proxmox home lab running on a single refurbished Lenovo ThinkCentre (16 GB RAM): a Windows Active Directory domain, a Windows 11 client, an Ubuntu server, and a monitoring node, all on one machine.
 
-![Lab Overview dashboard](images/lab-overview.jpg)
+```mermaid
+flowchart TB
+  subgraph pve["pve: Proxmox VE host"]
+    dc01["dc01<br/>Domain controller (AD + DNS)"]
+    ws01["ws01<br/>Windows 11 client"]
+    srv01["srv01<br/>Ubuntu server"]
+    mon01["mon01<br/>Monitoring (LXC)"]
+  end
+  dc01 -->|Security events| det["Detection pipeline<br/>LogSentry → Casefile triage"]
+  srv01 -->|auth.log| det
+  mon01 -. metrics and uptime checks .-> dc01
+  mon01 -.-> ws01
+  mon01 -.-> srv01
+```
 
 ## Writeups
 
